@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  name        String
+  headline    String
+  summary     String
+  location    String?
+  email       String?
+  photoUrl    String?
+  githubUrl   String?
+  linkedinUrl String?
+  resumeUrl   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workExperiences WorkExperience[]
+  education        Education[]
+  skills           Skill[]
+  projects         Project[]
+}
+
+model WorkExperience {
+  id        String   @id @default(cuid())
+  profileId String
+  company   String
+  role      String
+  location  String?
+  startDate DateTime
+  endDate   DateTime?
+  isCurrent Boolean  @default(false)
+  summary   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile    Profile         @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  highlights WorkHighlight[]
+
+  @@index([profileId, sortOrder])
+}
+
+model WorkHighlight {
+  id               String @id @default(cuid())
+  workExperienceId String
+  body             String
+  sortOrder        Int    @default(0)
+
+  workExperience WorkExperience @relation(fields: [workExperienceId], references: [id], onDelete: Cascade)
+
+  @@index([workExperienceId, sortOrder])
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  profileId   String
+  institution String
+  degree      String?
+  field       String?
+  location    String?
+  startDate   DateTime?
+  endDate     DateTime?
+  summary     String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, sortOrder])
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  profileId String
+  name      String
+  category  String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, category, sortOrder])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  profileId   String
+  name        String
+  description String
+  url         String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, sortOrder])
+}

@@ -3,7 +3,7 @@ import { CvPage } from "@/components/cv-page";
 import { getCvData } from "@/lib/cv-data";
 
 export const metadata: Metadata = {
-  title: "CV | Lucas Bunt",
+  title: "Work",
   description: "Professional background, experience, projects, and skills for Lucas Bunt.",
 };
 

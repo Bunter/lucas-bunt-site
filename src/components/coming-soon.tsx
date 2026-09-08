@@ -1,26 +1,10 @@
-export function ComingSoon({
-  icon: Icon,
-  eyebrow,
-  title,
-  body,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  eyebrow: string;
-  title: string;
-  body: string;
-}) {
-  return (
-    <main className="bg-white">
-      <section className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-5 py-16">
-        <Icon className="h-8 w-8 text-emerald-700" />
-        <p className="mt-6 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
-          {eyebrow}
-        </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-normal text-stone-950 md:text-5xl">
-          {title}
-        </h1>
-        <p className="mt-5 text-lg leading-8 text-stone-600">{body}</p>
-      </section>
-    </main>
-  );
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+export function ComingSoon({ icon: Icon, eyebrow, title, body }: { icon: React.ComponentType<{ className?: string }>; eyebrow: string; title: string; body: string }) {
+  return <main id="main-content" className="section-page">
+    <p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="section-lead">{body}</p>
+    <div className="empty-note"><Icon className="h-7 w-7 shrink-0" /><div><h2>The first entry is still to come.</h2><p>This little collection is just getting started. Check back for something new.</p></div></div>
+    <Link className="text-link" href="/"><ArrowLeft size={16} /> Back to all four chapters</Link>
+  </main>;
 }
+

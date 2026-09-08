@@ -1,6 +1,8 @@
+import { AdminUnavailable } from "@/components/admin-unavailable";
 import { getCvData } from "@/lib/cv-data";
 
 export default async function AdminCvPage() {
+  if (process.env.SITES_STATIC_PREVIEW === "1" || !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || !process.env.CLERK_SECRET_KEY) return <AdminUnavailable />;
   const data = await getCvData();
 
   return (

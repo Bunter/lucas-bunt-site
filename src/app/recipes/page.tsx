@@ -1,13 +1,5 @@
 import { Utensils } from "lucide-react";
 import { ComingSoon } from "@/components/coming-soon";
+export const metadata = { title: "Recipes", description: "Lucas Bunt’s kitchen notebook." };
+export default function RecipesPage() { return <ComingSoon icon={Utensils} eyebrow="03 / RECIPES" title="Worth making again." body="A kitchen notebook for recipes, small discoveries, and meals to share." />; }
 
-export default function RecipesPage() {
-  return (
-    <ComingSoon
-      icon={Utensils}
-      eyebrow="Recipes"
-      title="A practical kitchen notebook is coming next."
-      body="Recipes will eventually include ingredients, steps, notes, tags, and an admin editor."
-    />
-  );
-}

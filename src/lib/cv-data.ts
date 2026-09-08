@@ -57,56 +57,16 @@ export const starterCvData: CvData = {
   profile: {
     name: "Lucas Bunt",
     headline: "Technology leader, builder, and systems thinker",
-    summary:
-      "A practical, polished CV will live here first. The public page is wired for database-backed content, and the admin workflow will make this editable once auth and Postgres are configured.",
-    location: "United States",
-    photoUrl: null,
+    summary: "This is the work chapter: a home for my professional background and projects.",
     githubUrl: "https://github.com/Bunter",
     linkedinUrl: "https://www.linkedin.com/in/lucasbunt/",
   },
-  workExperiences: [
-    {
-      company: "Current / recent role",
-      role: "Role title",
-      location: null,
-      startDate: new Date("2024-01-01"),
-      endDate: null,
-      isCurrent: true,
-      summary: "Replace this with the strongest version of the story from your resume or LinkedIn.",
-      highlights: [
-        { body: "Led high-impact work across product, engineering, operations, or strategy." },
-        { body: "Built durable systems and processes that made teams faster and clearer." },
-      ],
-    },
-  ],
-  education: [
-    {
-      institution: "Education",
-      degree: "Degree or credential",
-      field: null,
-      location: null,
-      startDate: null,
-      endDate: null,
-      summary: "Academic background, certifications, or continuing education can go here.",
-    },
-  ],
-  skills: [
-    { name: "Postgres", category: "Data" },
-    { name: "Product strategy", category: "Leadership" },
-    { name: "Systems design", category: "Technology" },
-  ],
-  projects: [
-    {
-      name: "Personal website platform",
-      description:
-        "A public portfolio and private admin home base for CV, recipes, travel, and writing.",
-      url: null,
-    },
-  ],
+  workExperiences: [], education: [], skills: [],
+  projects: [{ name: "This little corner of the internet", description: "A personal home that brings work, writing, recipes, and travel together.", url: "https://github.com/Bunter/lucas-bunt-site" }],
 };
 
 export async function getCvData(): Promise<CvData> {
-  if (!process.env.DATABASE_URL) {
+  if (process.env.SITES_STATIC_PREVIEW === "1" || !process.env.DATABASE_URL) {
     return starterCvData;
   }
 

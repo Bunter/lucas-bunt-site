@@ -1,150 +1,24 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ExternalLink, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { CvData, formatDateRange } from "@/lib/cv-data";
-
-export function CvPage({ data }: { data: CvData }) {
-  const skillsByCategory = data.skills.reduce<Record<string, string[]>>((acc, skill) => {
-    acc[skill.category] = [...(acc[skill.category] ?? []), skill.name];
-    return acc;
-  }, {});
-
-  return (
-    <main className="bg-stone-50">
-      <section className="border-b border-stone-200 bg-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[220px_1fr] md:py-20">
-          <div className="relative h-52 w-52 overflow-hidden rounded-sm bg-stone-200">
-            {data.profile.photoUrl ? (
-              <Image
-                src={data.profile.photoUrl}
-                alt={data.profile.name}
-                fill
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-5xl font-semibold text-stone-500">
-                LB
-              </div>
-            )}
-          </div>
-
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">CV</p>
-            <h1 className="mt-3 text-5xl font-semibold tracking-normal text-stone-950 md:text-6xl">
-              {data.profile.name}
-            </h1>
-            <p className="mt-4 text-xl leading-8 text-stone-700">{data.profile.headline}</p>
-            <p className="mt-6 text-base leading-8 text-stone-600">{data.profile.summary}</p>
-
-            <div className="mt-7 flex flex-wrap gap-3 text-sm text-stone-600">
-              {data.profile.location ? (
-                <span className="inline-flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  {data.profile.location}
-                </span>
-              ) : null}
-              {data.profile.email ? (
-                <a className="inline-flex items-center gap-2 hover:text-stone-950" href={`mailto:${data.profile.email}`}>
-                  <Mail className="h-4 w-4" />
-                  Email
-                </a>
-              ) : null}
-              {data.profile.githubUrl ? (
-                <Link className="inline-flex items-center gap-2 hover:text-stone-950" href={data.profile.githubUrl}>
-                  <ExternalLink className="h-4 w-4" />
-                  GitHub
-                </Link>
-              ) : null}
-              {data.profile.linkedinUrl ? (
-                <Link className="inline-flex items-center gap-2 hover:text-stone-950" href={data.profile.linkedinUrl}>
-                  <ExternalLink className="h-4 w-4" />
-                  LinkedIn
-                </Link>
-              ) : null}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 lg:grid-cols-[1fr_320px]">
-        <section className="space-y-10">
-          <SectionTitle>Experience</SectionTitle>
-          <div className="space-y-8">
-            {data.workExperiences.map((job) => (
-              <article key={`${job.company}-${job.role}`} className="border-l-2 border-stone-300 pl-6">
-                <div className="flex flex-col justify-between gap-2 sm:flex-row">
-                  <div>
-                    <h2 className="text-xl font-semibold text-stone-950">{job.role}</h2>
-                    <p className="text-base text-stone-700">{job.company}</p>
-                  </div>
-                  <p className="text-sm font-medium text-stone-500">
-                    {formatDateRange(job.startDate, job.endDate, job.isCurrent)}
-                  </p>
-                </div>
-                {job.summary ? <p className="mt-4 leading-7 text-stone-600">{job.summary}</p> : null}
-                <ul className="mt-4 space-y-2 text-sm leading-6 text-stone-700">
-                  {job.highlights.map((highlight) => (
-                    <li key={highlight.body} className="flex gap-3">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-700" />
-                      <span>{highlight.body}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-
-          <SectionTitle>Projects</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {data.projects.map((project) => (
-              <article key={project.name} className="rounded-sm border border-stone-200 bg-white p-5">
-                <h3 className="font-semibold text-stone-950">{project.name}</h3>
-                <p className="mt-2 text-sm leading-6 text-stone-600">{project.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <aside className="space-y-10">
-          <section>
-            <SectionTitle>Skills</SectionTitle>
-            <div className="mt-5 space-y-5">
-              {Object.entries(skillsByCategory).map(([category, skills]) => (
-                <div key={category}>
-                  <h3 className="text-sm font-semibold text-stone-950">{category}</h3>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {skills.map((skill) => (
-                      <span key={skill} className="rounded-sm bg-white px-3 py-1.5 text-sm text-stone-700 ring-1 ring-stone-200">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <SectionTitle>Education</SectionTitle>
-            <div className="mt-5 space-y-5">
-              {data.education.map((item) => (
-                <article key={item.institution}>
-                  <h3 className="font-semibold text-stone-950">{item.institution}</h3>
-                  <p className="mt-1 text-sm text-stone-600">
-                    {[item.degree, item.field].filter(Boolean).join(", ")}
-                  </p>
-                  {item.summary ? <p className="mt-2 text-sm leading-6 text-stone-600">{item.summary}</p> : null}
-                </article>
-              ))}
-            </div>
-          </section>
-        </aside>
-      </div>
-    </main>
-  );
+export function CvPage({data}: {data:CvData}) {
+  return <main id="main-content" className="section-page">
+    <p className="eyebrow">01 / WORK</p><h1>Building things<br /><em>that matter.</em></h1>
+    {data.profile.photoUrl && <Image src={data.profile.photoUrl} alt={data.profile.name} width={160} height={160} />}
+    <p className="section-lead">{data.profile.headline}</p>
+    <p className="mt-5 max-w-2xl leading-8">{data.profile.summary}</p>
+    <div className="cv-links">
+      {data.profile.linkedinUrl && <a className="text-link" href={data.profile.linkedinUrl}>Find me on LinkedIn <ArrowUpRight size={16}/></a>}
+      {data.profile.githubUrl && <a className="text-link" href={data.profile.githubUrl}>Explore my GitHub <ArrowUpRight size={16}/></a>}
+      {data.profile.email && <a className="text-link" href={"mailto:"+data.profile.email}>Email me <ArrowUpRight size={16}/></a>}
+      {data.profile.resumeUrl && <a className="text-link" href={data.profile.resumeUrl}>Download CV <ArrowUpRight size={16}/></a>}
+    </div>
+    <div className="cv-grid"><section className="cv-panel"><h2>Experience</h2>
+      {data.workExperiences.length ? data.workExperiences.map(job=><article className="cv-project" key={job.company+job.role}><p>{formatDateRange(job.startDate,job.endDate,job.isCurrent)}</p><h3>{job.role}</h3><p>{job.company}{job.location ? " · "+job.location : ""}</p><p>{job.summary}</p><ul className="list-disc pl-5 mt-4 space-y-2">{job.highlights.map(h=><li key={h.body}>{h.body}</li>)}</ul></article>) : <p>A fuller work history is on its way. You can find my professional background on LinkedIn in the meantime.</p>}
+    </section><section className="cv-panel"><h2>Projects</h2>{data.projects.map(project=><article className="cv-project" key={project.name}><h3>{project.name}</h3><p>{project.description}</p>{project.url && <a className="text-link mt-4" href={project.url}>View project <ArrowUpRight size={16}/></a>}</article>)}</section>
+    {data.skills.length>0 && <section className="cv-panel"><h2>Skills</h2><div className="flex flex-wrap gap-3">{data.skills.map(s=><span className="border border-stone-300 px-3 py-2" key={s.category+s.name}>{s.name}</span>)}</div></section>}
+    {data.education.length>0 && <section className="cv-panel"><h2>Education</h2>{data.education.map(e=><article key={e.institution}><h3>{e.institution}</h3><p>{[e.degree,e.field].filter(Boolean).join(", ")}</p><p>{e.summary}</p></article>)}</section>}
+    </div>
+  </main>;
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">{children}</h2>;
-}

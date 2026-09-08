@@ -1,13 +1,5 @@
 import { NotebookText } from "lucide-react";
 import { ComingSoon } from "@/components/coming-soon";
+export const metadata = { title: "Writing", description: "Notes on work, technology, and ideas from Lucas Bunt." };
+export default function BlogPage() { return <ComingSoon icon={NotebookText} eyebrow="02 / WRITING" title="Thinking out loud." body="Notes on work, technology, and ideas worth sitting with." />; }
 
-export default function BlogPage() {
-  return (
-    <ComingSoon
-      icon={NotebookText}
-      eyebrow="Writing"
-      title="Work, industry, and technology writing will live here."
-      body="The writing section will reuse the same admin-backed content pattern after the CV slice is complete."
-    />
-  );
-}

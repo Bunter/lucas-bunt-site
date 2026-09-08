@@ -1,7 +1,9 @@
+import { AdminUnavailable } from "@/components/admin-unavailable";
 import Link from "next/link";
 import { ArrowRight, FileText, KeyRound } from "lucide-react";
 
 export default function AdminPage() {
+  if (process.env.SITES_STATIC_PREVIEW === "1" || !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || !process.env.CLERK_SECRET_KEY) return <AdminUnavailable />;
   const authConfigured = Boolean(
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
   );

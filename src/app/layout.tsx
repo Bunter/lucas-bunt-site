@@ -4,7 +4,7 @@ import { SiteSidebar } from "@/components/site-sidebar";
 import "./globals.css";
 export const metadata: Metadata = {
   title: { default: "Lucas Bunt — Work, life & the interesting bits between", template: "%s — Lucas Bunt" },
-  description: "A personal home for Lucas Bunt's work, writing, recipes, and travel.",
+  description: "A personal home for Lucas Bunt's work, writing, and hobbies: cooking, travel, making, home, music, and singing.",
 };
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return <html lang="en" className="h-full antialiased"><body className="min-h-full"><AuthProvider>

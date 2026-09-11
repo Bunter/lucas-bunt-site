@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowUpRight, CookingPot, Compass, Hammer, House, Music } from "lucide-react";
+import { ArrowUpRight, Camera, CookingPot, Compass, Hammer, House, Music } from "lucide-react";
 import { hobbies } from "@/lib/hobbies";
-export const metadata = { title: "Hobbies", description: "Cooking, travel, making, home projects, music, and singing with Lucas Bunt." };
-const icons = { cooking: CookingPot, travel: Compass, maker: Hammer, home: House, music: Music };
+export const metadata = { title: "Hobbies", description: "Cooking, travel, making, home projects, music, singing, and photography with Lucas Bunt." };
+const icons = { cooking: CookingPot, travel: Compass, maker: Hammer, home: House, music: Music, photography: Camera };
 export default function HobbiesPage() {
   return <main id="main-content" className="section-page">
     <p className="eyebrow">03 / HOBBIES</p>

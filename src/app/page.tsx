@@ -4,7 +4,7 @@ import { ArrowUpRight, BriefcaseBusiness, NotebookPen, Compass } from "lucide-re
 const chapters = [
   { number: "01", name: "Work", href: "/cv", icon: BriefcaseBusiness, note: "Building things that matter.", description: "Professional background, projects, and the thinking behind the work.", action: "Explore my background" },
   { number: "02", name: "Writing", href: "/blog", icon: NotebookPen, note: "Thinking out loud.", description: "A notebook for ideas about technology, work, and everything in between.", action: "Open the notebook" },
-  { number: "03", name: "Hobbies", href: "/hobbies", icon: Compass, note: "Life beyond the workday.", description: "Cooking, adventure, making, home projects, music, and singing.", action: "Explore my hobbies" },
+  { number: "03", name: "Hobbies", href: "/hobbies", icon: Compass, note: "Life beyond the workday.", description: "Cooking, adventure, making, home projects, music, singing, and photography.", action: "Explore my hobbies" },
 ];
 export default function Home() {
   return <main id="main-content" className="home-page">

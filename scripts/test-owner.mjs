@@ -10,16 +10,16 @@ assert.equal((await req('/api/entries',{headers:{'oai-authenticated-user-id':'lo
 const login=await req('/api/login',{method:'POST',headers:{Origin:base,'Content-Type':'application/json'},body:JSON.stringify({username:process.env.OWNER_TEST_USERNAME||'Bunter',password:process.env.OWNER_TEST_PASSWORD})});assert.equal(login.status,200,await login.clone().text());cookie=login.headers.get('set-cookie')?.split(';')[0];assert.ok(cookie,'session cookie');assert.ok(login.headers.get('set-cookie').includes('HttpOnly'));assert.ok(login.headers.get('set-cookie').includes('SameSite=Strict'));
 assert.equal((await req('/api/entries')).status,200,'owner can list');
 const csrf=await req('/api/entries',{method:'POST',headers:{Origin:'https://example.com','Content-Type':'application/json'},body:'{}'});assert.equal(csrf.status,403);
-const content={title:'Workspace verification',category:'writing',excerpt:'Temporary test',body:'First published text',ingredients:'',instructions:'',servings:'',time:'',assets:[]};
+const content={author:'Test Writer',date:'2024-02-29',title:'Workspace verification',category:'writing',excerpt:'Temporary test',body:'First published text',ingredients:'',instructions:'',servings:'',time:'',assets:[]};
 let r=await action({action:'save',content});assert.equal(r.status,200,JSON.stringify(r));const id=r.body.id;
 try{
- let list=await (await req('/api/entries')).json();let row=list.find(e=>e.id===id);assert.ok(row);
+ let list=await (await req('/api/entries')).json();let row=list.find(e=>e.id===id);assert.ok(row);assert.equal(row.draft.author,'Test Writer');assert.equal(row.draft.date,'2024-02-29');
  assert.equal((await fetch(base+'/posts/'+id)).status,404,'draft invisible');
  const form=new FormData();form.set('file',new File([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')],'test.png',{type:'image/png'}));
  const upload=await req('/api/uploads',{method:'POST',headers:{Origin:base},body:form});assert.equal(upload.status,200);const asset=await upload.json();content.assets=[{...asset,alt:'A small test image'}];
  assert.equal((await fetch(base+'/media/'+asset.id)).status,404,'unpublished image private');assert.equal((await req('/media/'+asset.id)).status,200);
  r=await action({action:'publish',id,version:row.version,content});assert.equal(r.status,200,JSON.stringify(r));
- assert.equal((await fetch(base+'/posts/'+id)).status,200);assert.equal((await fetch(base+'/media/'+asset.id)).status,200);
+ const publishedPage=await fetch(base+'/posts/'+id);assert.equal(publishedPage.status,200);const publishedHtml=await publishedPage.text();assert.ok(publishedHtml.includes('Test Writer'));assert.ok(publishedHtml.includes('February 29, 2024'));assert.equal((await fetch(base+'/media/'+asset.id)).status,200);
  list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
  const oldVersion=row.version;
  r=await action({action:'save',id,version:row.version,content:{...content,body:'PRIVATE DRAFT REVISION'}});assert.equal(r.status,200);

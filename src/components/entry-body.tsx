@@ -1,6 +1,8 @@
 import type { EntryContent } from "@/lib/content-types";
+import { EntryByline } from "./entry-byline";
 export function EntryBody({content}:{content:EntryContent}){return <article className="entry-body">
   <p className="eyebrow">{content.category.replaceAll("-"," / ")}</p><h1>{content.title||"Untitled draft"}</h1>
+  <EntryByline author={content.author} date={content.date}/>
   {content.excerpt&&<p className="section-lead">{content.excerpt}</p>}
   {content.assets.filter(a=>a.mime.startsWith("image/")).map(a=><figure key={a.id}><img src={`/media/${a.id}`} alt={a.alt} loading="lazy"/>{a.alt&&<figcaption>{a.alt}</figcaption>}</figure>)}
   {content.body&&<div className="entry-prose">{content.body.split(/\n\s*\n/).map((p,i)=><p key={i}>{p}</p>)}</div>}

@@ -6,6 +6,13 @@ const [command, ...args] = process.argv.slice(2);
 if (!["dev", "build"].includes(command)) throw new Error("Expected dev or build.");
 const managedLinux = readExecutionProfile() === "managed-linux";
 
+// Fresh GitHub checkouts do not contain the generated Prisma client used by Work.
+const generated = spawnSync(process.execPath, [
+  fileURLToPath(new URL("../node_modules/prisma/build/index.js", import.meta.url)), "generate",
+], { stdio: "inherit" });
+if (generated.error) throw generated.error;
+if (generated.status !== 0) process.exit(generated.status ?? 1);
+
 if (managedLinux && command === "build") {
   const result = spawnSync("bash", [
     fileURLToPath(new URL("./build-verified.sh", import.meta.url)), ...args,

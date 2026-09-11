@@ -41,3 +41,10 @@ yarn-error.log*
 *.tsbuildinfo
 
 /src/generated/prisma
+
+!/build/
+/dist/
+/.wrangler/
+/.sites-runtime/
+.dev.vars*
+/.vinext/

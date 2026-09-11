@@ -1,5 +1,5 @@
 import { hobbies } from "./hobbies";
-export const categories = [{slug:"writing",title:"Writing"}, ...hobbies];
+export const categories = [{slug:"writing",title:"Writing"}, ...hobbies, {slug:"food-photos",title:"Cooking · Food photos"}];
 export type Attachment = {id:string; name:string; mime:string; alt:string};
 export const recipeTags = ["Gluten free", "Dairy free", "Nut free", "Peanut free", "Tree nut free", "Egg free", "Soy free", "Sesame free", "Wheat free", "Fish free", "Shellfish free"] as const;
 export type EntryContent = { recipeTags?:string[]; author?:string; date?:string; title:string; category:string; excerpt:string; body:string; ingredients:string; instructions:string; servings:string; time:string; assets:Attachment[] };

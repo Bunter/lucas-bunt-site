@@ -29,7 +29,10 @@ try{
  assert.equal((await action({action:'publish',id,version:row.version,content:{...content,category:'cooking-recipes'}})).status,400,'incomplete recipe rejected');
  r=await action({action:'publish',id,version:row.version,content:{...content,category:'cooking-recipes',ingredients:'1 cup flour',instructions:'Mix and bake',recipeTags:['Dairy free','Egg free']}});assert.equal(r.status,200);
  const recipeDetail=await (await fetch(base+'/posts/'+id)).text();assert.ok(recipeDetail.includes('Dairy free'));assert.ok(recipeDetail.includes('Egg free'));assert.ok(!recipeDetail.includes('Gluten free'));
- const recipe=await (await fetch(base+'/hobbies/cooking-recipes')).text();assert.ok(recipe.includes('Workspace verification'));
+ const recipe=await (await fetch(base+'/hobbies/cooking-recipes')).text();assert.ok(recipe.includes('Workspace verification'));assert.ok(recipe.includes('Foods I made'));assert.ok(recipe.includes('View recipe'));
+ list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
+ r=await action({action:'publish',id,version:row.version,content:{...content,category:'food-photos'}});assert.equal(r.status,200);
+ const album=await (await fetch(base+'/hobbies/cooking-recipes')).text();assert.ok(album.includes('View food photos'));assert.ok(album.includes('Workspace verification'));
  list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
  assert.equal((await action({action:'unpublish',id,version:row.version})).status,200);assert.equal((await fetch(base+'/posts/'+id)).status,404);assert.equal((await fetch(base+'/media/'+asset.id)).status,404);
  console.log('PASS: authentication, header spoofing, CSRF, drafts, uploads, publication, draft isolation, conflict protection, recipe validation, category listing, unpublishing.');

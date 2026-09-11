@@ -48,3 +48,17 @@ The integration check runs only against localhost, creates and deletes a tempora
 ## Hosting and GitHub
 
 Reuse the project ID in `.openai/hosting.json`. Configure `OWNER_USERNAME` and secret `OWNER_PASSWORD_HASH` in Sites before publishing the Worker. Never put their values in source code, build artifacts, or the hosting manifest. A GitHub push does not itself deploy this Site.
+
+### Direct Cloudflare deployment from GitHub
+
+`wrangler.production.json` targets Lucas's Cloudflare account and its database. Local development continues to use isolated local bindings.
+
+- Worker name: `lucas-bunt-site`
+- GitHub repository: `Bunter/lucas-bunt-site`, production branch `main`
+- Build command: `npm run build:cloudflare`
+- Deploy command: `npm run deploy:cloudflare`
+- Create the private R2 bucket `lucas-bunt-uploads` before the first deployment.
+- Set the runtime secret `OWNER_PASSWORD_HASH` on the Worker. `OWNER_USERNAME` is configured in the production file.
+- Deployment credentials need access to Workers, D1 migrations, and the configured R2 binding in the same account.
+
+The deploy command applies pending D1 migrations, then publishes the built Worker. Custom domains can be connected after the initial workers.dev deployment succeeds. GitHub remains the source of truth for code; the database and uploaded files live in Cloudflare.

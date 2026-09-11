@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lucas-bunt-site",
+  "account_id": "e79b6133257037022dfe0a88ce01ce88",
+  "main": "vinext/server/fetch-handler",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": { "OWNER_USERNAME": "Bunter" },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "lucas-bunt-site",
+    "database_id": "28e3c21e-24fa-435d-9598-91d7a3c2a818",
+    "migrations_dir": "drizzle"
+  }],
+  "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "lucas-bunt-uploads" }]
+}

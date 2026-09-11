@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import Image from "next/image";
 import { ArrowUpRight, BriefcaseBusiness, NotebookPen, Compass } from "lucide-react";
 const chapters = [
@@ -17,11 +17,11 @@ export default function Home() {
       </div>
     </section>
     <section className="chapters main-chapters" aria-label="Explore my website">
-      {chapters.map(({ number, name, href, icon: Icon, note, description, action }) => <Link href={href} key={name} className={"chapter chapter-" + name.toLowerCase()}>
+      {chapters.map(({ number, name, href, icon: Icon, note, description, action }) => <a href={href} key={name} className={"chapter chapter-" + name.toLowerCase()}>
         <div className="chapter-top"><span>{number} / {name.toUpperCase()}</span><Icon size={22} strokeWidth={1.4} /></div>
         <h2>{name}</h2><p className="chapter-note">{note}</p><p className="chapter-description">{description}</p>
         <div className="chapter-action">{action}<ArrowUpRight size={19} /></div>
-      </Link>)}
+      </a>)}
     </section>
     <Image className="editorial-art" src="/editorial-banner.png" alt="An illustrated landscape connecting a notebook, laptop, cooking pot, and a winding mountain path." width={1774} height={887} />
     <div className="home-signoff"><span>Work, writing, and a life in between.</span><span>Thanks for stopping by.</span></div>

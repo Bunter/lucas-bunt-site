@@ -7,6 +7,10 @@
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "preview_urls": false,
+  "routes": [
+    { "pattern": "lucasbunt.com", "custom_domain": true },
+    { "pattern": "www.lucasbunt.com", "custom_domain": true }
+  ],
   "vars": { "OWNER_USERNAME": "Bunter" },
   "d1_databases": [{
     "binding": "DB",

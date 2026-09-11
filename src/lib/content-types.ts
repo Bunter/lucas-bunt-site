@@ -1,14 +1,22 @@
 import { hobbies } from "./hobbies";
-export const categories = [{slug:"writing",title:"Writing"}, ...hobbies, {slug:"food-photos",title:"Cooking · Food photos"}];
+export const categories = [{slug:"writing",title:"Writing"}, ...hobbies.map(h=>h.slug==="cooking-recipes"?{...h,title:"Food · Recipes"}:h), {slug:"food-photos",title:"Food · Food photos"}, {slug:"restaurant-reviews",title:"Food · Restaurant reviews"}];
+export const ratingNames=["Food","Digs","Service","Ambiance","Total"] as const;
+export type Restaurant = {address:string;ratings:Partial<Record<typeof ratingNames[number],number>>};
 export type Attachment = {id:string; name:string; mime:string; alt:string};
 export const recipeTags = ["Gluten free", "Dairy free", "Nut free", "Peanut free", "Tree nut free", "Egg free", "Soy free", "Sesame free", "Wheat free", "Fish free", "Shellfish free"] as const;
-export type EntryContent = { recipeTags?:string[]; author?:string; date?:string; title:string; category:string; excerpt:string; body:string; ingredients:string; instructions:string; servings:string; time:string; assets:Attachment[] };
+export type EntryContent = { restaurant?:Restaurant; recipeTags?:string[]; author?:string; date?:string; title:string; category:string; excerpt:string; body:string; ingredients:string; instructions:string; servings:string; time:string; assets:Attachment[] };
 export type Entry = {id:string; category:string; draft:EntryContent; published:EntryContent|null; publishedAt:string|null; updatedAt:string; version:number};
 export const emptyContent = (category="writing"):EntryContent => ({title:"",category,excerpt:"",body:"",ingredients:"",instructions:"",servings:"",time:"",assets:[]});
 export function validateContent(value:unknown, publishing=false): EntryContent {
   if(!value || typeof value!=="object") throw new Error("Content is required.");
   const v=value as Record<string,unknown>;
   const result=emptyContent();
+  if(v.restaurant!==undefined){
+    const restaurant=v.restaurant as Restaurant;
+    if(!restaurant||typeof restaurant.address!=="string"||restaurant.address.length>500||!restaurant.ratings||typeof restaurant.ratings!=="object"||Array.isArray(restaurant.ratings))throw new Error("Enter a valid restaurant address and ratings.");
+    result.restaurant={address:restaurant.address.trim(),ratings:{}};
+    for(const name of ratingNames){const score=restaurant.ratings[name];if(score===undefined)continue;if(typeof score!=="number"||!Number.isFinite(score)||score<0||score>5||Math.abs(score*10-Math.round(score*10))>1e-8)throw new Error("Ratings must be from 0 to 5 in steps of 0.1.");result.restaurant.ratings[name]=score;}
+  }
   const tags=v.recipeTags??[];
   if(!Array.isArray(tags)||tags.length>recipeTags.length||tags.some(tag=>typeof tag!=="string"||!recipeTags.includes(tag as typeof recipeTags[number]))) throw new Error("Choose valid recipe tags.");
   result.recipeTags=recipeTags.filter(tag=>tags.includes(tag));
@@ -31,6 +39,7 @@ export function validateContent(value:unknown, publishing=false): EntryContent {
     return {id:a.id,alt:a.alt.trim(),name:"",mime:""};
   });
   if(publishing){
+    if(result.category==="restaurant-reviews"&&(!result.body||!result.restaurant?.address||ratingNames.some(name=>result.restaurant?.ratings[name]===undefined)))throw new Error("Add an address, review, and all five ratings before publishing.");
     if(!result.title) throw new Error("Add a title before publishing.");
     if(!result.body&&!result.ingredients&&!result.assets.length) throw new Error("Add some content before publishing.");
     if(result.category==="cooking-recipes"&&(!result.ingredients||!result.instructions)) throw new Error("Add ingredients and instructions before publishing a recipe.");

@@ -1,0 +1,5 @@
+import {ratingNames,type Restaurant} from "@/lib/content-types";
+export function RestaurantDetails({restaurant}:{restaurant?:Restaurant}){
+ if(!restaurant)return null;
+ return <section className="restaurant-details" aria-label="Restaurant details"><dl className="restaurant-ratings">{ratingNames.map(name=>{const score=restaurant.ratings[name];return <div key={name}><dt>{name}</dt><dd>{score===undefined?"Not rated":<><span className="rating-stars" aria-hidden="true"><span>★★★★★</span><span style={{width:`${score/5*100}%`}}>★★★★★</span></span><strong>{score.toFixed(1)} / 5</strong></>}</dd></div>;})}</dl>{restaurant.address&&<div className="restaurant-location"><address>{restaurant.address}</address><iframe title={`Map of ${restaurant.address}`} src={`https://www.google.com/maps?q=${encodeURIComponent(restaurant.address)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade"/><a className="text-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurant.address)}`} target="_blank" rel="noreferrer">Open map ↗</a></div>}</section>;
+}

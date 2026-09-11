@@ -34,6 +34,13 @@ try{
  r=await action({action:'publish',id,version:row.version,content:{...content,category:'food-photos'}});assert.equal(r.status,200);
  const album=await (await fetch(base+'/hobbies/cooking-recipes')).text();assert.ok(album.includes('View food photos'));assert.ok(album.includes('Workspace verification'));
  list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
+ const review={...content,category:'restaurant-reviews',restaurant:{address:'123 Main Street, Buffalo, NY',ratings:{Food:4.7,Digs:3.2,Service:4.1,Ambiance:4.5,Total:4.3}}};
+ assert.equal((await action({action:'publish',id,version:row.version,content:{...review,restaurant:{...review.restaurant,ratings:{...review.restaurant.ratings,Food:5.1}}}})).status,400);
+ assert.equal((await action({action:'publish',id,version:row.version,content:{...review,restaurant:{...review.restaurant,ratings:{...review.restaurant.ratings,Food:4.75}}}})).status,400);
+ assert.equal((await action({action:'publish',id,version:row.version,content:review})).status,200);
+ const reviewHtml=await (await fetch(base+'/posts/'+id)).text();assert.ok(reviewHtml.includes('4.7'));assert.ok(reviewHtml.includes('123 Main Street'));assert.ok(reviewHtml.includes('www.google.com/maps'));
+ const foodPage=await (await fetch(base+'/hobbies/cooking-recipes')).text();assert.ok(foodPage.includes('Food/Cooking'));assert.ok(foodPage.includes('Restaurant reviews'));assert.ok(foodPage.includes('4.3'));
+ list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
  assert.equal((await action({action:'unpublish',id,version:row.version})).status,200);assert.equal((await fetch(base+'/posts/'+id)).status,404);assert.equal((await fetch(base+'/media/'+asset.id)).status,404);
  console.log('PASS: authentication, header spoofing, CSRF, drafts, uploads, publication, draft isolation, conflict protection, recipe validation, category listing, unpublishing.');
 }finally{const list=await (await req('/api/entries')).json();const row=list.find(e=>e.id===id);if(row)await action({action:'delete',id,version:row.version});}

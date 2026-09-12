@@ -34,7 +34,7 @@ export type CvData = {
     summary?: string | null;
   }[];
   skills: { name: string; category: string }[];
-  certifications?: { name: string; issuer: string; issued: string }[];
+  certifications?: { name: string; issuer: string; issued: string; credentialId?: string }[];
   projects: { name: string; description: string; url?: string | null }[];
 };
 
@@ -237,7 +237,7 @@ export const starterCvData: CvData = {
       "degree": "Bachelor of Science (BS)",
       "field": "Applied Mathematics",
       "dateLabel": "2006–2010",
-      "summary": "Undergraduate research through the URGE to COMPUTE program used parallel computation to model fiber-optic communication and signal degradation. Findings were presented at Penn State and JMM 2010 in San Francisco. Physics Club president, Math League participant, and recipient of an NSA research grant/fellowship."
+      "summary": "Undergraduate research through the URGE to COMPUTE program used parallel computation to model fiber-optic communication and signal degradation. Worked on a four-student team studying outage prediction and fault tolerance, using the University at Buffalo’s Center for Computational Research to accelerate the modeling. Findings were presented at Penn State and JMM 2010 in San Francisco. Physics Club president, Math League participant, and recipient of an NSA research grant/fellowship."
     },
     {
       "institution": "University at Buffalo",
@@ -290,12 +290,12 @@ export const starterCvData: CvData = {
     {
       "name": "SAFe Agilist Certification",
       "issuer": "SAFe by Scaled Agile, Inc.",
-      "issued": "Oct 2022"
+      "issued": "Oct 2022", "credentialId": "44023686-9799"
     },
     {
       "name": "FinOps Certified Practitioner",
       "issuer": "The Linux Foundation",
-      "issued": "Sep 2020"
+      "issued": "Sep 2020", "credentialId": "LF-g5c1u5ma04"
     },
     {
       "name": "Certified Scrum Master",

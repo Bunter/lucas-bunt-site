@@ -1,0 +1,129 @@
+{
+  "tours": [
+    {
+      "year": "1987",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "1990",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "1992",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "1993",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "1996",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "2000",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "2003",
+      "group": "Cathedral of the Incarnation, Garden City",
+      "note": "England choir tour with a different cathedral program"
+    },
+    {
+      "year": "2005",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "Return tour with St. Paul's"
+    },
+    {
+      "year": "2006",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "2010",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "2016",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    },
+    {
+      "year": "2018",
+      "group": "St. Paul's Episcopal Cathedral",
+      "note": "England choir tour"
+    }
+  ],
+  "residencies": [
+    {
+      "region": "England",
+      "venues": [
+        "Bristol Cathedral",
+        "Canterbury Cathedral",
+        "Chichester Cathedral",
+        "Coventry Cathedral",
+        "Durham Cathedral",
+        "Ely Cathedral",
+        "Exeter Cathedral",
+        "Gloucester Cathedral",
+        "King's College Chapel, Cambridge",
+        "Leicester Cathedral",
+        "Norwich Cathedral",
+        "Peterborough Cathedral",
+        "Christ Church Cathedral (Oxford)",
+        "Trinity Cathedral (Oxford)",
+        "St Albans Cathedral",
+        "Salisbury Cathedral",
+        "Southwark Cathedral",
+        "St Paul's Cathedral",
+        "Truro Cathedral",
+        "Wells Cathedral",
+        "Winchester Cathedral",
+        "York Minster",
+        "Westminster Abbey",
+        "Westminster Cathedral (London)",
+        "St George's Chapel, Windsor"
+      ]
+    },
+    {
+      "region": "Scotland",
+      "venues": [
+        "St Mary's Episcopal Cathedral (Edinburgh, Scotland)"
+      ]
+    },
+    {
+      "region": "Ireland",
+      "venues": [
+        "St Patrick's Cathedral (Dublin, Ireland)",
+        "St Patrick's Cathedral, Armagh"
+      ]
+    },
+    {
+      "region": "France",
+      "venues": [
+        "Notre-Dame de Paris (Paris, France)",
+        "Sainte-Chapelle (Paris, France)",
+        "Reims Cathedral (France)",
+        "Rouen Cathedral (France)",
+        "Bayeux Cathedral (France)",
+        "Chartres Cathedral (France)"
+      ]
+    },
+    {
+      "region": "Sweden",
+      "venues": [
+        "Uppsala Cathedral (Sweden)",
+        "Linköping Cathedral (Sweden)",
+        "Gothenburg Cathedral (Sweden)",
+        "Stockholm Cathedral / Storkyrkan (Sweden)"
+      ]
+    }
+  ]
+}

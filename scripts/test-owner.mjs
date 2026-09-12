@@ -42,7 +42,15 @@ try{
  const reviewHtml=await (await fetch(base+'/posts/'+id)).text();assert.ok(reviewHtml.includes('4.7'));assert.ok(reviewHtml.includes('123 Main Street'));assert.ok(reviewHtml.includes('www.google.com/maps'));
  const foodPage=await (await fetch(base+'/hobbies/cooking-recipes')).text();assert.ok(foodPage.includes('Food/Cooking'));assert.ok(foodPage.includes('Restaurant reviews'));assert.ok(foodPage.includes('4.3'));
  list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
- assert.equal((await action({action:'unpublish',id,version:row.version})).status,200);assert.equal((await fetch(base+'/posts/'+id)).status,404);assert.equal((await fetch(base+'/media/'+asset.id)).status,404);
+ const visit={...content,title:'Japan visit test',body:'Travel map publication verification',category:'travel-log',mapVisit:{placeKey:'world-Japan',intensity:0.72,years:'2026'}};
+ assert.equal((await action({action:'save',id,version:row.version,content:visit})).status,200);
+ let travelHtml=await (await fetch(base+'/hobbies/travel-adventure')).text();assert.ok(!travelHtml.includes('Travel map publication verification'),'draft visit hidden');
+ list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
+ assert.equal((await action({action:'publish',id,version:row.version,content:visit})).status,200);
+ travelHtml=await (await fetch(base+'/hobbies/travel-adventure')).text();assert.ok(travelHtml.includes('Travel map publication verification'),'published visit reaches map');
+ list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
+ assert.equal((await action({action:'unpublish',id,version:row.version})).status,200);
+ travelHtml=await (await fetch(base+'/hobbies/travel-adventure')).text();assert.ok(!travelHtml.includes('Travel map publication verification'),'unpublished visit removed');assert.equal((await fetch(base+'/posts/'+id)).status,404);assert.equal((await fetch(base+'/media/'+asset.id)).status,404);
  console.log('PASS: authentication, header spoofing, CSRF, drafts, uploads, publication, draft isolation, conflict protection, recipe validation, category listing, unpublishing.');
 }finally{const list=await (await req('/api/entries')).json();const row=list.find(e=>e.id===id);if(row)await action({action:'delete',id,version:row.version});}
 

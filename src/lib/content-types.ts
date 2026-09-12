@@ -1,16 +1,19 @@
 import { hobbies } from "./hobbies";
-export const categories = [{slug:"writing",title:"Writing"}, ...hobbies.map(h=>h.slug==="cooking-recipes"?{...h,title:"Food · Recipes"}:h), {slug:"food-photos",title:"Food · Food photos"}, {slug:"restaurant-reviews",title:"Food · Restaurant reviews"}];
+import travelPlaces from "./travel-places.json";
+export const categories = [{slug:"writing",title:"Writing"}, ...hobbies.map(h=>h.slug==="cooking-recipes"?{...h,title:"Food · Recipes"}:h), {slug:"food-photos",title:"Food · Food photos"}, {slug:"restaurant-reviews",title:"Food · Restaurant reviews"}, {slug:"travel-log",title:"Travel · Map visit"}];
+export type MapVisit={placeKey:string;intensity:number;years:string};
 export const ratingNames=["Food","Digs","Service","Ambiance","Total"] as const;
 export type Restaurant = {address:string;ratings:Partial<Record<typeof ratingNames[number],number>>};
 export type Attachment = {id:string; name:string; mime:string; alt:string};
 export const recipeTags = ["Gluten free", "Dairy free", "Nut free", "Peanut free", "Tree nut free", "Egg free", "Soy free", "Sesame free", "Wheat free", "Fish free", "Shellfish free"] as const;
-export type EntryContent = { restaurant?:Restaurant; recipeTags?:string[]; author?:string; date?:string; title:string; category:string; excerpt:string; body:string; ingredients:string; instructions:string; servings:string; time:string; assets:Attachment[] };
+export type EntryContent = { mapVisit?:MapVisit; restaurant?:Restaurant; recipeTags?:string[]; author?:string; date?:string; title:string; category:string; excerpt:string; body:string; ingredients:string; instructions:string; servings:string; time:string; assets:Attachment[] };
 export type Entry = {id:string; category:string; draft:EntryContent; published:EntryContent|null; publishedAt:string|null; updatedAt:string; version:number};
 export const emptyContent = (category="writing"):EntryContent => ({title:"",category,excerpt:"",body:"",ingredients:"",instructions:"",servings:"",time:"",assets:[]});
 export function validateContent(value:unknown, publishing=false): EntryContent {
   if(!value || typeof value!=="object") throw new Error("Content is required.");
   const v=value as Record<string,unknown>;
   const result=emptyContent();
+  if(v.mapVisit!==undefined){const visit=v.mapVisit as MapVisit;if(!visit||!travelPlaces.some(p=>p.key===visit.placeKey)||![.18,.42,.72,1].includes(visit.intensity)||typeof visit.years!=="string"||visit.years.length>200)throw new Error("Choose a place, visit frequency, and valid visit dates.");result.mapVisit={placeKey:visit.placeKey,intensity:visit.intensity,years:visit.years.trim()};}
   if(v.restaurant!==undefined){
     const restaurant=v.restaurant as Restaurant;
     if(!restaurant||typeof restaurant.address!=="string"||restaurant.address.length>500||!restaurant.ratings||typeof restaurant.ratings!=="object"||Array.isArray(restaurant.ratings))throw new Error("Enter a valid restaurant address and ratings.");
@@ -39,9 +42,10 @@ export function validateContent(value:unknown, publishing=false): EntryContent {
     return {id:a.id,alt:a.alt.trim(),name:"",mime:""};
   });
   if(publishing){
+    if(result.category==="travel-log"&&(!result.mapVisit||!result.mapVisit.years))throw new Error("Choose a map location and add visit dates before publishing.");
     if(result.category==="restaurant-reviews"&&(!result.body||!result.restaurant?.address||ratingNames.some(name=>result.restaurant?.ratings[name]===undefined)))throw new Error("Add an address, review, and all five ratings before publishing.");
     if(!result.title) throw new Error("Add a title before publishing.");
-    if(!result.body&&!result.ingredients&&!result.assets.length) throw new Error("Add some content before publishing.");
+    if(result.category!=="travel-log"&&!result.body&&!result.ingredients&&!result.assets.length) throw new Error("Add some content before publishing.");
     if(result.category==="cooking-recipes"&&(!result.ingredients||!result.instructions)) throw new Error("Add ingredients and instructions before publishing a recipe.");
   }
   return result;

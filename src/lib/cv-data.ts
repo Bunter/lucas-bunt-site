@@ -237,7 +237,7 @@ export const starterCvData: CvData = {
       "degree": "Bachelor of Science (BS)",
       "field": "Applied Mathematics",
       "dateLabel": "2006–2010",
-      "summary": "Undergraduate research through the URGE to COMPUTE program used parallel computation to model fiber-optic communication and signal degradation. Worked on a four-student team studying outage prediction and fault tolerance, using the University at Buffalo’s Center for Computational Research to accelerate the modeling. Findings were presented at Penn State and JMM 2010 in San Francisco. Physics Club president, Math League participant, and recipient of an NSA research grant/fellowship."
+      "summary": "Undergraduate research through the URGE to COMPUTE program used parallel computation to model fiber-optic communication and signal degradation. Worked on a four-student team studying outage prediction and fault tolerance, using the University at Buffalo’s Center for Computational Research to accelerate the modeling. Findings were presented at Penn State and JMM 2010 in San Francisco. Physics Club and Math League president, and recipient of an NSA research grant/fellowship."
     },
     {
       "institution": "University at Buffalo",

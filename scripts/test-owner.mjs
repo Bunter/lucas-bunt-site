@@ -17,9 +17,10 @@ try{
  assert.equal((await fetch(base+'/posts/'+id)).status,404,'draft invisible');
  const form=new FormData();form.set('file',new File([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')],'test.png',{type:'image/png'}));
  const upload=await req('/api/uploads',{method:'POST',headers:{Origin:base},body:form});assert.equal(upload.status,200);const asset=await upload.json();content.assets=[{...asset,alt:'A small test image'}];
+ for(let i=2;i<=3;i++){const nextForm=new FormData();nextForm.set('file',new File([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')],'photo-'+i+'.png',{type:'image/png'}));const response=await req('/api/uploads',{method:'POST',headers:{Origin:base},body:nextForm});assert.equal(response.status,200);content.assets.push({...await response.json(),alt:'Grouped photo '+i});}
  assert.equal((await fetch(base+'/media/'+asset.id)).status,404,'unpublished image private');assert.equal((await req('/media/'+asset.id)).status,200);
  r=await action({action:'publish',id,version:row.version,content});assert.equal(r.status,200,JSON.stringify(r));
- const publishedPage=await fetch(base+'/posts/'+id);assert.equal(publishedPage.status,200);const publishedHtml=await publishedPage.text();assert.ok(publishedHtml.includes('Test Writer'));assert.ok(publishedHtml.includes('February 29, 2024'));assert.equal((await fetch(base+'/media/'+asset.id)).status,200);
+ const publishedPage=await fetch(base+'/posts/'+id);assert.equal(publishedPage.status,200);const publishedHtml=await publishedPage.text();assert.ok(publishedHtml.includes('Test Writer'));assert.ok(publishedHtml.includes('February 29, 2024'));for(const photo of content.assets){assert.ok(publishedHtml.includes('/media/'+photo.id),'every grouped image renders');assert.equal((await fetch(base+'/media/'+photo.id)).status,200);}const savedPhotos=(await (await req('/api/entries')).json()).find(e=>e.id===id);assert.equal(savedPhotos.published.assets.length,3);assert.equal((await fetch(base+'/media/'+asset.id)).status,200);
  list=await (await req('/api/entries')).json();row=list.find(e=>e.id===id);
  const oldVersion=row.version;
  r=await action({action:'save',id,version:row.version,content:{...content,body:'PRIVATE DRAFT REVISION'}});assert.equal(r.status,200);

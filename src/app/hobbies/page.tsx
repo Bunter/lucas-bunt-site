@@ -1,8 +1,8 @@
 
-import { ArrowUpRight, Camera, CookingPot, Compass, Hammer, House, Music } from "lucide-react";
+import { ArrowUpRight, Camera, CookingPot, Compass, Hammer, House, Music, Telescope, Workflow } from "lucide-react";
 import { hobbies } from "@/lib/hobbies";
 export const metadata = { title: "Hobbies", description: "Cooking, travel, making, home projects, music, singing, and photography with Lucas Bunt." };
-const icons = { cooking: CookingPot, travel: Compass, maker: Hammer, home: House, music: Music, photography: Camera };
+const icons = { cooking: CookingPot, travel: Compass, maker: Hammer, home: House, music: Music, photography: Camera, space: Telescope, automation: Workflow };
 export default function HobbiesPage() {
   return <main id="main-content" className="section-page">
     <p className="eyebrow">03 / HOBBIES</p>

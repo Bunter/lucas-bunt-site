@@ -2,7 +2,7 @@
 import {useState} from "react";
 import baseData from "@/lib/travel-map-data.json";
 type Visit={name:string;intensity:number;years:string;note:string;postId?:string};
-const colors=["#37414f","#4ea8ff","#ffb020","#ff7a45","#ff4d4f"];
+const colors=["#d5dbd2","#8eaabd","#c9b36e","#c68e67","#ad6c61"];
 const level=(v:number)=>v<.18?0:v<.42?1:v<.72?2:v<.92?3:4;
 const labels=["Not logged","Visited","Repeat visits","Frequent","Home / favorite"];
 export function TravelMap({visits=[]}:{visits?:{placeKey:string;intensity:number;years:string;note:string;postId:string}[]}){
